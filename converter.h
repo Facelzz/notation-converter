@@ -2,7 +2,7 @@
 
 bool isCorrect(int, int);
 
-// int toDecimal(int, int)
+int toDecimal(int, int)
 
 // void toBinary(int*, int, bool*)
 
