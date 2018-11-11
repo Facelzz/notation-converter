@@ -29,3 +29,9 @@ int toDecimal(int number, int numberSystem)	{
 	}
 	return result;
 }
+
+void printBinary(bool* binaryNumber) {
+	std::cout<<binaryNumber[0]<<".";
+	for(int i = 1; i < 12; i++)
+		std::cout<<binaryNumber[i];
+}

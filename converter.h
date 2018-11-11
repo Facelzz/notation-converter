@@ -8,4 +8,4 @@ int toDecimal(int, int)
 
 // bool *summ(bool*, bool*) or void add(bool*, bool*, bool*)
 
-// void printBinary(bool*);
+void printBinary(bool*);
