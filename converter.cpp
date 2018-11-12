@@ -8,7 +8,7 @@
 #include "converter.h"
 
 int main() {
-	
+
 	return 0;
 }
 
@@ -56,4 +56,37 @@ void toBinary(int number, int numberSystem, bool* result)	{
 		}
 	}	else
 			std::cout<<"\n\tError! The number or number system are wrong!\n";
+}
+
+bool *summBinary(bool* firstBinary, bool* secondBinary)	{
+	bool* summ = new bool[12];
+	bool _flag = 0; //перенос
+	for(int i = 11; i > 0; i--)	{
+		if(firstBinary[i] && !secondBinary[i] || !firstBinary[i] && secondBinary[i])	{
+			if(_flag)  {
+        summ[i] = 0;
+        _flag = 1;
+      } else  {
+        summ[i] = 1;
+  			_flag = 0;
+      }
+		}	else
+				if(firstBinary[i] && secondBinary[i])	{
+          if(_flag) {
+            summ[i] = 1;
+            _flag = 1;
+          } else {
+              summ[i] = 0;
+    					_flag = 1;
+            }
+				}	else
+            if(!(firstBinary[i] && secondBinary[i])){
+              if(_flag)
+                summ[i] = 1;
+              else
+                summ[i] = 0;
+              _flag = 0;
+            }
+	}
+	return summ;
 }
