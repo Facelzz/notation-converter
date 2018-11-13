@@ -6,14 +6,63 @@
 #include <iostream>
 #include <math.h>
 #include "converter.h"
+#include "interface.h"
 
 int main() {
+	int firstNumber = -1, secondNumber = -1;
+	int firstNumberSystem = 6, secondNumberSystem = 8;
+  bool* firstBinary = new bool[12];
+  bool* secondBinary = new bool[12];
+  bool* sum = new bool[12];
 
-	return 0;
+  drawWelcome();
+
+  for(int i = 1; ; i++) {
+
+      std::cout<<"#"<<i<<":\n\t";
+      std::cin>>firstNumber;
+      std::cout<<"\t+\n\t";
+      std::cin>>secondNumber;
+
+      if(!firstNumber && !secondNumber)
+      break;
+
+      if(!isCorrect(firstNumber,firstNumberSystem) ||
+          !isCorrect(secondNumber,secondNumberSystem))  {
+        std::cout<<"One of entered numbers is wrong!\n";
+        continue;
+      }
+
+      toBinary(firstNumber, firstNumberSystem, firstBinary);
+      toBinary(secondNumber, secondNumberSystem, secondBinary);
+
+
+      std::cout <<"\n  In decimal:\t"
+                <<toDecimal(firstNumber,firstNumberSystem)
+                <<" + "
+                <<toDecimal(secondNumber,secondNumberSystem)
+                <<" = "
+                <<toDecimal(firstNumber,firstNumberSystem)
+                                      +
+                  toDecimal(secondNumber,secondNumberSystem)
+                <<"\n";
+
+      std::cout<<"  In binary:\t";
+      printBinary(firstBinary);
+      std::cout<<" + ";
+      printBinary(secondBinary);
+      std::cout<<" = ";
+      sum = sumBinary(firstBinary, secondBinary);
+      printBinary(sum);
+      std::cout<<"\n\n";
+  }
+
+  drawBye();
+
 }
 
 bool isCorrect(int number, int numberSystem)	{
-	do {
+  do {
 		if((number % 10) >= numberSystem)
 			return false;
 		else number /= 10;
@@ -34,7 +83,6 @@ void printBinary(bool* binaryNumber) {
 	std::cout<<binaryNumber[0]<<".";
 	for(int i = 1; i < 12; i++)
 		std::cout<<binaryNumber[i];
-  std::cout<<std::endl;
 }
 
 void toBinary(int number, int numberSystem, bool* result)	{
@@ -58,35 +106,63 @@ void toBinary(int number, int numberSystem, bool* result)	{
 			std::cout<<"\n\tError! The number or number system are wrong!\n";
 }
 
-bool *summBinary(bool* firstBinary, bool* secondBinary)	{
-	bool* summ = new bool[12];
+bool *sumBinary(bool* firstBinary, bool* secondBinary)	{
+	bool* sum = new bool[12];
 	bool _flag = 0; //перенос
 	for(int i = 11; i > 0; i--)	{
 		if(firstBinary[i] && !secondBinary[i] || !firstBinary[i] && secondBinary[i])	{
 			if(_flag)  {
-        summ[i] = 0;
+        sum[i] = 0;
         _flag = 1;
       } else  {
-        summ[i] = 1;
+        sum[i] = 1;
   			_flag = 0;
-      }
+        }
 		}	else
 				if(firstBinary[i] && secondBinary[i])	{
           if(_flag) {
-            summ[i] = 1;
+            sum[i] = 1;
             _flag = 1;
           } else {
-              summ[i] = 0;
+              sum[i] = 0;
     					_flag = 1;
             }
 				}	else
             if(!(firstBinary[i] && secondBinary[i])){
               if(_flag)
-                summ[i] = 1;
+                sum[i] = 1;
               else
-                summ[i] = 0;
+                sum[i] = 0;
               _flag = 0;
             }
 	}
-	return summ;
+	return sum;
+}
+
+void drawWelcome() {
+  std::cout<< "\t\t\t ####################\n"
+              "\t\t\t ###   WELCOME!   ###\n"
+              "\t\t\t ####################\n";
+  for(int i = 0; i < 10; i++)
+    std::cout<<"=======";
+  std::cout<< "\n\t\t\t     Let`s begin.\n"
+              "\n\t\t       Enter two numbers thus:\n\n"
+              "\t\t\t  (6-number-system)\n"
+              "\t\t\t\t  +\n"
+              "\t\t\t  (8-nubmer-system)\n"
+              "\n     Then you`ll see a decimal and binary representation and get\n"
+              "\t\t    the sum of them in the same way.\n"
+              "\t\t         (Enter 0 + 0 to EXIT)\n";
+  for(int i = 0; i < 10; i++)
+    std::cout<<"=======";
+  std::cout<<"\n\n";
+}
+
+void drawBye()  {
+  std::cout<<"\n";
+  for(int i = 0; i < 10; i++)
+    std::cout<<"=======";
+  std::cout<< "\n\n\t\t########################################\n"
+              "\t\t###############   Bye!   ###############\n"
+              "\t\t########################################\n\n";
 }

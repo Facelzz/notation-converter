@@ -6,6 +6,6 @@ int toDecimal(int, int);
 
 void toBinary(int, int, bool*);
 
-bool *summBinary(bool*, bool*);
+bool *sumBinary(bool*, bool*);
 
 void printBinary(bool*);
