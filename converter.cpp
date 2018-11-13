@@ -59,6 +59,7 @@ int main() {
 
   drawBye();
 
+	return 0;
 }
 
 bool isCorrect(int number, int numberSystem)	{
@@ -79,6 +80,15 @@ int toDecimal(int number, int numberSystem)	{
 	return result;
 }
 
+int toDecimal(bool* binaryNumber)	{
+	int result = 0;
+	for(int i = 11; i > 0; i--)
+		result += binaryNumber[i]*pow(2,11-i);
+	if(binaryNumber[0])
+		result *= -1;
+	return result;
+}
+
 void printBinary(bool* binaryNumber) {
 	std::cout<<binaryNumber[0]<<".";
 	for(int i = 1; i < 12; i++)
@@ -87,6 +97,7 @@ void printBinary(bool* binaryNumber) {
 
 void toBinary(int number, int numberSystem, bool* result)	{
   for(int i = 0; i < 12; i++, result[i] = 0);
+
   if(isCorrect(number, numberSystem))	{
 		if(numberSystem != 10)
 			number = toDecimal(number, numberSystem);
@@ -98,6 +109,11 @@ void toBinary(int number, int numberSystem, bool* result)	{
       }
 		int i = 11;
 		while(number > 0)	{
+			if(i == 0)
+				std::cout<<	"\n   WARNING! Digit grid had overflowed! "
+										"One of these numbers have wrong value.\n"
+										"\tThe value will be used, but binary "
+										"ANSWER WILL BE INCORRECT!\n";
 			result[i] = number % 2;
 			number /= 2;
 			i--;
@@ -109,6 +125,7 @@ void toBinary(int number, int numberSystem, bool* result)	{
 bool *sumBinary(bool* firstBinary, bool* secondBinary)	{
 	bool* sum = new bool[12];
 	bool _flag = 0; //перенос
+	bool overflow = 0;
 	for(int i = 11; i > 0; i--)	{
 		if(firstBinary[i] && !secondBinary[i] || !firstBinary[i] && secondBinary[i])	{
 			if(_flag)  {
@@ -134,8 +151,10 @@ bool *sumBinary(bool* firstBinary, bool* secondBinary)	{
               else
                 sum[i] = 0;
               _flag = 0;
-            }
+						}
 	}
+	if(toDecimal(firstBinary)+toDecimal(secondBinary) > 2047)
+		std::cout<<" OVERFLOW! ";
 	return sum;
 }
 
